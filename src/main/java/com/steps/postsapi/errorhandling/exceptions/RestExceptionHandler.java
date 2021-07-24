@@ -28,14 +28,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
         }
         else if (e instanceof MissingRequiredParameterException){
             status = HttpStatus.CONFLICT;
-            return this.handleUserConflictException((MissingRequiredParameterException) e, headers, status, request);
+            return this.handleMissingRequiredParameter((MissingRequiredParameterException) e, headers, status, request);
         }
-        else{
+        else if (e instanceof UserNotExistException) {
+            status = HttpStatus.NOT_FOUND;
+            return this.handleUserNotExistException((UserNotExistException) e, headers, status, request);
+        } else {
             throw e;
         }
     }
 
-    private ResponseEntity<Object> handleUserConflictException(MissingRequiredParameterException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handleMissingRequiredParameter(MissingRequiredParameterException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return buildResponseEntity(new ApiError(status, e.getMessage(), e));
     }
 
@@ -43,7 +46,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
         return buildResponseEntity(new ApiError(status, e.getMessage(), e));
     }
 
-    private ResponseEntity<Object> handleMissingRequiredParameter(UserDetailsConflictException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handleUserNotExistException(UserNotExistException e, HttpHeaders headers, HttpStatus status, WebRequest request){
         return buildResponseEntity(new ApiError(status, e.getMessage(), e));
     }
 

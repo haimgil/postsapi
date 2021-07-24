@@ -2,9 +2,11 @@ package com.steps.postsapi.controllers;
 
 import com.steps.postsapi.errorhandling.exceptions.MissingRequiredParameterException;
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
+import com.steps.postsapi.errorhandling.exceptions.UserNotExistException;
 import com.steps.postsapi.helpers.CreateForm;
 import com.steps.postsapi.persistence.Post;
-import com.steps.postsapi.services.CreatePostApplicationService;
+import com.steps.postsapi.services.application.CreatePostApplicationService;
+import com.steps.postsapi.services.application.GetPostsApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +29,24 @@ public class PostController {
     private final static Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
-    private CreatePostApplicationService applicationService;
+    private CreatePostApplicationService createPostApplicationService;
+    @Autowired
+    private GetPostsApplicationService getPostsApplicationService;
 
     @PostMapping("/posts")
     @ResponseBody
     public ResponseEntity<Post> createPost(@RequestBody CreateForm createForm) throws UserDetailsConflictException, MissingRequiredParameterException {
-        Post post = applicationService.createPostApplicationService(createForm.getUser(), createForm.getPost());
+        Post post = createPostApplicationService.createPostApplicationService(createForm.getUser(), createForm.getPost());
         logger.info("Post id: {} was created successfully", post.getId());
         return ResponseEntity.ok(post);
     }
 
     @GetMapping("/posts")
     @ResponseBody
-    public ResponseEntity<List<Post>> retrievePosts(@RequestParam(required = false)String userId, @RequestParam(required = false)Long offset, @RequestParam(required = false) Long limit){
+    public ResponseEntity<List<Post>> retrievePosts(@RequestParam(required = false)Long userId, @RequestParam(required = false)Integer offset, @RequestParam(required = false) Integer limit) throws UserNotExistException {
 
-        return ResponseEntity.ok(new ArrayList<>());
+        List<Post> posts = getPostsApplicationService.get(userId, offset, limit);
+
+        return ResponseEntity.ok(posts);
     }
 }

@@ -1,9 +1,12 @@
-package com.steps.postsapi.services;
+package com.steps.postsapi.services.application;
 
 import com.steps.postsapi.errorhandling.exceptions.MissingRequiredParameterException;
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
 import com.steps.postsapi.persistence.Post;
 import com.steps.postsapi.persistence.User;
+import com.steps.postsapi.services.domain.PostService;
+import com.steps.postsapi.services.domain.UserService;
+import com.steps.postsapi.services.domain.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreatePostApplicationService {

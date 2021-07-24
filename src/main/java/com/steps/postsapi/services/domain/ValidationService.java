@@ -1,16 +1,21 @@
-package com.steps.postsapi.services;
+package com.steps.postsapi.services.domain;
 
 import com.steps.postsapi.errorhandling.errors.ErrorsMessages;
 import com.steps.postsapi.errorhandling.exceptions.MissingRequiredParameterException;
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
+import com.steps.postsapi.errorhandling.exceptions.UserNotExistException;
 import com.steps.postsapi.persistence.Post;
 import com.steps.postsapi.persistence.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ValidationService {
 
     private final static Logger logger = LoggerFactory.getLogger(ValidationService.class);
+
+    @Autowired
+    private UserService userService;
 
     public void inputValidation(Post post, User user) throws MissingRequiredParameterException{
         logger.info("Validate input");
@@ -35,6 +40,18 @@ public class ValidationService {
             String errMsg = String.format(ErrorsMessages.userDetailsConflictMsg, existedUser.getId());
             throw new UserDetailsConflictException(errMsg);
         }
+    }
+
+    public void validateUserExists(Long userId) throws UserNotExistException {
+        logger.info("Validate user existence");
+        if ( ! userService.userExists(userId)){
+            String errMsg = String.format(ErrorsMessages.userNotExist, userId);
+            throw new UserNotExistException(errMsg);
+        }
+    }
+
+    public void validatePaginationValues(Integer offset, Integer limit){
+        //TODO implement validation
     }
 
     private void throwMissingParameterException(String paramName) throws MissingRequiredParameterException {

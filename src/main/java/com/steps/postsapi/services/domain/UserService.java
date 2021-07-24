@@ -1,11 +1,14 @@
-package com.steps.postsapi.services;
+package com.steps.postsapi.services.domain;
 
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
+import com.steps.postsapi.helpers.IdsHelper;
 import com.steps.postsapi.persistence.User;
 import com.steps.postsapi.persistence.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class UserService {
 
@@ -32,6 +35,10 @@ public class UserService {
         }
     }
 
+    public boolean userExists(Long userId){
+        return repository.existsById(userId);
+    }
+
     private void createNewUser(User user, Long postId) {
         User newUser = new User();
         newUser.setId(user.getId());
@@ -41,5 +48,12 @@ public class UserService {
 
         repository.save(newUser);
         logger.info("New user with id <" + newUser.getId() + "> was created");
+    }
+
+    public List<Long> getUserPostIds(Long userId) {
+        return IdsHelper.commaSeparatedToList(repository
+                .findById(userId)
+                .get()
+                .getPostIds());
     }
 }

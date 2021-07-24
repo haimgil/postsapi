@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table (name = "posts")
 @EntityListeners(AuditingEntityListener.class)
-public class Post {
+public class Post implements Comparable<Post>{
 
     @Id
     @Column (name = "id")
@@ -66,5 +66,10 @@ public class Post {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return getPublishDate().compareTo(o.publishDate);
     }
 }
