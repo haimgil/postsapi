@@ -1,27 +1,19 @@
 package com.steps.postsapi.helpers;
 
+import com.steps.postsapi.persistence.Post;
 import com.steps.postsapi.persistence.User;
 
 public class CreateForm {
 
-    private String title;
-    private String body;
+    private Post post;
     private User user;
 
-    public String getTitle() {
-        return title;
+    public Post getPost() {
+        return post;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public User getUser() {

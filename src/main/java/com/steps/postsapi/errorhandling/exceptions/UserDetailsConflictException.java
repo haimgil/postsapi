@@ -1,10 +1,10 @@
 package com.steps.postsapi.errorhandling.exceptions;
 
-public class MissingRequiredParameterException extends Exception {
+public class UserDetailsConflictException extends Exception{
 
     private String message;
 
-    public MissingRequiredParameterException(String message) {
+    public UserDetailsConflictException(String message) {
         this.message = message;
     }
 
@@ -12,5 +12,4 @@ public class MissingRequiredParameterException extends Exception {
     public String getMessage() {
         return message;
     }
-
 }
