@@ -5,8 +5,11 @@ import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
 import com.steps.postsapi.errorhandling.exceptions.UserNotExistException;
 import com.steps.postsapi.helpers.CreateForm;
 import com.steps.postsapi.persistence.Post;
+import com.steps.postsapi.persistence.User;
 import com.steps.postsapi.services.application.CreatePostApplicationService;
+import com.steps.postsapi.services.application.GetPostNumberApplicationService;
 import com.steps.postsapi.services.application.GetPostsApplicationService;
+import com.steps.postsapi.services.application.GetTopCreatorsApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,10 @@ public class PostController {
     private CreatePostApplicationService createPostApplicationService;
     @Autowired
     private GetPostsApplicationService getPostsApplicationService;
+    @Autowired
+    private GetPostNumberApplicationService postNumberApplicationService;
+    @Autowired
+    private GetTopCreatorsApplicationService getTopCreatorsApplicationService;
 
     @PostMapping("/posts")
     @ResponseBody
@@ -48,5 +55,19 @@ public class PostController {
         List<Post> posts = getPostsApplicationService.get(userId, offset, limit);
 
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/postNumber")
+    @ResponseBody
+    public ResponseEntity<String> postNumber(){
+        Long postNumber = postNumberApplicationService.getPostNumber();
+        return ResponseEntity.ok("Number of posts is: " + postNumber);
+    }
+
+    @GetMapping("/statistics/topCreators")
+    @ResponseBody
+    public ResponseEntity<List<User>> getTopCreators(){
+        List<User> topCreators = getTopCreatorsApplicationService.getTopCreators();
+        return ResponseEntity.ok(topCreators);
     }
 }

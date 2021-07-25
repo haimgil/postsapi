@@ -1,6 +1,6 @@
 package com.steps.postsapi.errorhandling.exceptions;
 
-public class UserNotExistException extends Exception{
+public class UserNotExistException extends RuntimeException{
 
     private String message;
 

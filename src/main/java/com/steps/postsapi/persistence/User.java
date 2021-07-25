@@ -22,6 +22,8 @@ public class User {
     private String lastName;
     @Column(name = "postsIds")
     private String postIds;
+    @Column(name = "postsQuantity")
+    private Integer postsQuantity;
 
     public Long getId() {
         return id;
@@ -53,5 +55,13 @@ public class User {
 
     public void setPostIds(String postIds) {
         this.postIds = postIds;
+    }
+
+    public Integer getPostsQuantity() {
+        return postsQuantity;
+    }
+
+    public void setPostsQuantity(Integer postsQuantity) {
+        this.postsQuantity = postsQuantity;
     }
 }

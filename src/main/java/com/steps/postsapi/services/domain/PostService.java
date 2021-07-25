@@ -37,7 +37,7 @@ public class PostService {
         newPost.setTitle(post.getTitle());
         newPost.setBody(post.getBody());
         newPost.setPublishDate(Calendar.getInstance().getTime());
-        newPost.setUserId(userId);
+        newPost.setByUser(userId);
 
         return repository.save(newPost);
     }
@@ -89,5 +89,9 @@ public class PostService {
             id = UUID.randomUUID().getMostSignificantBits();
         } while (id < 0);
         return id;
+    }
+
+    public Long getNumber() {
+        return repository.count();
     }
 }

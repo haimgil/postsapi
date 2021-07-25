@@ -25,8 +25,8 @@ public class Post implements Comparable<Post>{
     @Column(name = "publishDate", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date publishDate;
-    @Column(name = "userId", nullable = false)
-    private Long userId;
+    @Column(name = "byUser", nullable = false)
+    private Long byUser;
 
     public void setId(Long id) {
         this.id = id;
@@ -60,12 +60,12 @@ public class Post implements Comparable<Post>{
         this.publishDate = publishDate;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getByUser() {
+        return byUser;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setByUser(Long userId) {
+        this.byUser = userId;
     }
 
     @Override

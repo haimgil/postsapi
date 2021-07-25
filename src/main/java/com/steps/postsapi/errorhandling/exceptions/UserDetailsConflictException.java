@@ -1,6 +1,6 @@
 package com.steps.postsapi.errorhandling.exceptions;
 
-public class UserDetailsConflictException extends Exception{
+public class UserDetailsConflictException extends RuntimeException{
 
     private String message;
 

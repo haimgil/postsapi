@@ -50,10 +50,6 @@ public class ValidationService {
         }
     }
 
-    public void validatePaginationValues(Integer offset, Integer limit){
-        //TODO implement validation
-    }
-
     private void throwMissingParameterException(String paramName) throws MissingRequiredParameterException {
         String errMsg = String.format(ErrorsMessages.missingRequiredParameterMsg, paramName);
         throw new MissingRequiredParameterException(errMsg);

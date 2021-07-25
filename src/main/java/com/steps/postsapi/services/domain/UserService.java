@@ -7,6 +7,8 @@ import com.steps.postsapi.persistence.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class UserService {
             User userToUpdate = repository.findById(user.getId()).get();
             validationService.validateUserDetails(user, userToUpdate);
             userToUpdate.setPostIds(userToUpdate.getPostIds().concat(COMMA + postId));
+            userToUpdate.setPostsQuantity(userToUpdate.getPostsQuantity() + 1);
             repository.save(userToUpdate);
             logger.info("User with id <" + userToUpdate.getId() + "> was updated");
         }
@@ -45,6 +48,7 @@ public class UserService {
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setPostIds(String.valueOf(postId));
+        newUser.setPostsQuantity(1);
 
         repository.save(newUser);
         logger.info("New user with id <" + newUser.getId() + "> was created");
@@ -55,5 +59,16 @@ public class UserService {
                 .findById(userId)
                 .get()
                 .getPostIds());
+    }
+
+    public List<User> getTopCreators() {
+        if (repository.count() >= 10) {
+            return repository
+                    .findAll(PageRequest.of(0, 10, Sort.by("postsQuantity").descending()))
+                    .toList();
+        }
+        else{
+            return repository.findAll(Sort.by("postsQuantity").descending());
+        }
     }
 }

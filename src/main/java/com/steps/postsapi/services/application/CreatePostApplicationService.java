@@ -20,6 +20,7 @@ public class CreatePostApplicationService {
 
     public Post createPostApplicationService(User user, Post post) throws UserDetailsConflictException, MissingRequiredParameterException {
 
+        //TODO - Check why code is keep running (and creating the post) after throwing exception???
         validationService.inputValidation(post, user);
         Post newPost = postService.create(user.getId(), post);
         userService.createOrUpdateUser(user, newPost.getId());

@@ -19,7 +19,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler({MissingRequiredParameterException.class,UserDetailsConflictException.class})
     @Nullable
-    public ResponseEntity<Object> handleExceptions(Exception e, WebRequest request) throws Exception{
+    public ResponseEntity<Object> handleExceptions(Exception e, WebRequest request) throws RuntimeException{
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status;
         if (e instanceof UserDetailsConflictException){
@@ -34,7 +34,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
             status = HttpStatus.NOT_FOUND;
             return this.handleUserNotExistException((UserNotExistException) e, headers, status, request);
         } else {
-            throw e;
+            throw (RuntimeException) e;
         }
     }
 
