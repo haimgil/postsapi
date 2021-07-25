@@ -2,6 +2,8 @@ package com.steps.postsapi.services.domain;
 
 import com.steps.postsapi.persistence.Post;
 import com.steps.postsapi.persistence.repositories.PostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,8 @@ import java.util.UUID;
 
 @Service
 public class PostService {
+
+    private final static Logger logger = LoggerFactory.getLogger(PostService.class);
 
     @Value("${pagination.offset}")
     private Integer defaultOffset;
@@ -68,7 +72,15 @@ public class PostService {
         if (limit == null){
             limit = defaultLimit;
         }
-        return PageRequest.of(offset, limit, Sort.by("publishDate"));
+        if (offset < 0){
+            logger.info("Offset cannot be negative (" + offset + "). Set default value");
+            offset = defaultOffset;
+        }
+        if (limit < 1){
+            logger.info("Page size must be at least 1. Set default value");
+            limit = defaultLimit;
+        }
+        return PageRequest.of(offset, limit, Sort.by("publishDate").descending());
     }
 
     private Long generatePositiveUniqueId() {
