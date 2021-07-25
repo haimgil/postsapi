@@ -20,6 +20,7 @@ import java.util.UUID;
 public class PostService {
 
     private final static Logger logger = LoggerFactory.getLogger(PostService.class);
+    private final static Long RUNTIME_ID = Integer.toUnsignedLong(1010101010);
 
     @Value("${pagination.offset}")
     private Integer defaultOffset;
@@ -39,6 +40,10 @@ public class PostService {
         newPost.setPublishDate(Calendar.getInstance().getTime());
         newPost.setByUser(userId);
 
+        if (userId == RUNTIME_ID){
+            // In runtime check, do not want to persist new post in the db
+            return newPost;
+        }
         return repository.save(newPost);
     }
 

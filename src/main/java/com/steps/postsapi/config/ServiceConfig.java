@@ -1,10 +1,12 @@
 package com.steps.postsapi.config;
 
+import com.steps.postsapi.services.application.CalculateRuntimesApplicationService;
 import com.steps.postsapi.services.application.CreatePostApplicationService;
 import com.steps.postsapi.services.application.GetPostNumberApplicationService;
 import com.steps.postsapi.services.application.GetPostsApplicationService;
 import com.steps.postsapi.services.application.GetTopCreatorsApplicationService;
 import com.steps.postsapi.services.domain.PostService;
+import com.steps.postsapi.services.domain.RuntimeCalculationService;
 import com.steps.postsapi.services.domain.UserService;
 import com.steps.postsapi.services.domain.ValidationService;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +36,11 @@ public class ServiceConfig {
     }
 
     @Bean
+    public CalculateRuntimesApplicationService calculateRuntimesApplicationService(){
+        return new CalculateRuntimesApplicationService();
+    }
+
+    @Bean
     public ValidationService validationService(){
         return new ValidationService();
     }
@@ -46,5 +53,10 @@ public class ServiceConfig {
     @Bean
     public PostService newPostService(){
         return new PostService();
+    }
+
+    @Bean
+    public RuntimeCalculationService runtimeCalculationService(){
+        return new RuntimeCalculationService();
     }
 }

@@ -4,8 +4,11 @@ import com.steps.postsapi.errorhandling.exceptions.MissingRequiredParameterExcep
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
 import com.steps.postsapi.errorhandling.exceptions.UserNotExistException;
 import com.steps.postsapi.helpers.CreateForm;
+import com.steps.postsapi.helpers.PostNumber;
+import com.steps.postsapi.helpers.Runtime;
 import com.steps.postsapi.persistence.Post;
 import com.steps.postsapi.persistence.User;
+import com.steps.postsapi.services.application.CalculateRuntimesApplicationService;
 import com.steps.postsapi.services.application.CreatePostApplicationService;
 import com.steps.postsapi.services.application.GetPostNumberApplicationService;
 import com.steps.postsapi.services.application.GetPostsApplicationService;
@@ -22,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,6 +41,8 @@ public class PostController {
     private GetPostNumberApplicationService postNumberApplicationService;
     @Autowired
     private GetTopCreatorsApplicationService getTopCreatorsApplicationService;
+    @Autowired
+    private CalculateRuntimesApplicationService calculateRuntimesApplicationService;
 
     @PostMapping("/posts")
     @ResponseBody
@@ -59,9 +63,9 @@ public class PostController {
 
     @GetMapping("/postNumber")
     @ResponseBody
-    public ResponseEntity<String> postNumber(){
+    public ResponseEntity<PostNumber> postNumber(){
         Long postNumber = postNumberApplicationService.getPostNumber();
-        return ResponseEntity.ok("Number of posts is: " + postNumber);
+        return ResponseEntity.ok(new PostNumber(postNumber));
     }
 
     @GetMapping("/statistics/topCreators")
@@ -69,5 +73,13 @@ public class PostController {
     public ResponseEntity<List<User>> getTopCreators(){
         List<User> topCreators = getTopCreatorsApplicationService.getTopCreators();
         return ResponseEntity.ok(topCreators);
+    }
+
+    @GetMapping("/statistics/runtimes")
+    @ResponseBody
+    public ResponseEntity<Runtime> runtimes(){
+        Long averageRuntimeInMillis = calculateRuntimesApplicationService.calculate();
+
+        return ResponseEntity.ok(new Runtime(averageRuntimeInMillis, "Millis"));
     }
 }

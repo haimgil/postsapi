@@ -15,6 +15,7 @@ import java.util.List;
 public class UserService {
 
     private final static Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final static Long RUNTIME_ID = Integer.toUnsignedLong(101010);
 
     private final String COMMA = ",";
 
@@ -50,6 +51,8 @@ public class UserService {
         newUser.setPostIds(String.valueOf(postId));
         newUser.setPostsQuantity(1);
 
+        if (newUser.getId() == RUNTIME_ID) // In runtime check, do not want to persist new user in the db
+            return;
         repository.save(newUser);
         logger.info("New user with id <" + newUser.getId() + "> was created");
     }
