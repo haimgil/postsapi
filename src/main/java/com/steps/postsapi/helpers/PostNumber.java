@@ -2,13 +2,13 @@ package com.steps.postsapi.helpers;
 
 public class PostNumber {
 
-    private Long postNumber;
+    private Long totalPostNumber;
 
-    public PostNumber(Long postNumber) {
-        this.postNumber = postNumber;
+    public PostNumber(Long totalPostNumber) {
+        this.totalPostNumber = totalPostNumber;
     }
 
-    public Long getPostNumber() {
-        return postNumber;
+    public Long getTotalPostNumber() {
+        return totalPostNumber;
     }
 }

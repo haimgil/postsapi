@@ -5,6 +5,7 @@ public class UserDetailsConflictException extends RuntimeException{
     private String message;
 
     public UserDetailsConflictException(String message) {
+        super(message);
         this.message = message;
     }
 

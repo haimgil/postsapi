@@ -5,10 +5,15 @@ import com.steps.postsapi.persistence.User;
 import com.steps.postsapi.services.application.CreatePostApplicationService;
 import com.steps.postsapi.services.application.GetPostsApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 public class RuntimeCalculationService {
 
-    private final static Long RUNTIME_ID = Integer.toUnsignedLong(1010101010);
+    private final static long RUNTIME_ID = 1010101010;
+    private final String MILLIS = "millis";
+
+    @Value("${time.unit}")
+    private String timeUnit;
 
     @Autowired
     private CreatePostApplicationService createPostApplicationService;
@@ -27,7 +32,10 @@ public class RuntimeCalculationService {
         createPostApplicationService.createPostApplicationService(generateRuntimeUser(), generateRuntimePost());
         long endTime = System.nanoTime();
 
-        return (endTime - startTime)/1000000; //Divide by 1000000 to get millis
+        if (MILLIS.equalsIgnoreCase(timeUnit))
+            return (endTime - startTime)/1000000; //Divide by 1000000 to get millis
+        else
+            return (endTime - startTime); //nanos
     }
 
     private Post generateRuntimePost() {

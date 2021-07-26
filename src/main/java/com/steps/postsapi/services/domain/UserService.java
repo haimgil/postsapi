@@ -1,7 +1,7 @@
 package com.steps.postsapi.services.domain;
 
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
-import com.steps.postsapi.helpers.IdsHelper;
+import com.steps.postsapi.helpers.IdsService;
 import com.steps.postsapi.persistence.User;
 import com.steps.postsapi.persistence.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.List;
 public class UserService {
 
     private final static Logger logger = LoggerFactory.getLogger(UserService.class);
-    private final static Long RUNTIME_ID = Integer.toUnsignedLong(101010);
+    private final static long RUNTIME_ID = 1010101010;
 
     private final String COMMA = ",";
 
@@ -58,7 +58,7 @@ public class UserService {
     }
 
     public List<Long> getUserPostIds(Long userId) {
-        return IdsHelper.commaSeparatedToList(repository
+        return IdsService.commaSeparatedToList(repository
                 .findById(userId)
                 .get()
                 .getPostIds());

@@ -16,6 +16,7 @@ import com.steps.postsapi.services.application.GetTopCreatorsApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,12 @@ import java.util.List;
 @RequestMapping("steps/v0")
 public class PostController {
 
-    private final static Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static final String MILLIS = "Millis";
+    private static final String NANOS = "Nanos";
+
+    @Value("${time.unit}")
+    private String timeUnit;
 
     @Autowired
     private CreatePostApplicationService createPostApplicationService;
@@ -61,14 +67,14 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    @GetMapping("/postNumber")
+    @GetMapping("/postnumber")
     @ResponseBody
     public ResponseEntity<PostNumber> postNumber(){
         Long postNumber = postNumberApplicationService.getPostNumber();
         return ResponseEntity.ok(new PostNumber(postNumber));
     }
 
-    @GetMapping("/statistics/topCreators")
+    @GetMapping("/statistics/topcreators")
     @ResponseBody
     public ResponseEntity<List<User>> getTopCreators(){
         List<User> topCreators = getTopCreatorsApplicationService.getTopCreators();
@@ -78,8 +84,12 @@ public class PostController {
     @GetMapping("/statistics/runtimes")
     @ResponseBody
     public ResponseEntity<Runtime> runtimes(){
-        Long averageRuntimeInMillis = calculateRuntimesApplicationService.calculate();
-
-        return ResponseEntity.ok(new Runtime(averageRuntimeInMillis, "Millis"));
+        Long averageRuntime = calculateRuntimesApplicationService.calculate();
+        Runtime runtime;
+        if (MILLIS.equalsIgnoreCase(timeUnit))
+            runtime = new Runtime(averageRuntime, MILLIS);
+        else
+            runtime = new Runtime(averageRuntime, NANOS);
+        return ResponseEntity.ok(runtime);
     }
 }

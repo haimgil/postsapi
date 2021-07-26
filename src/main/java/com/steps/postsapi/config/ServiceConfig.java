@@ -1,5 +1,6 @@
 package com.steps.postsapi.config;
 
+import com.steps.postsapi.helpers.IdsService;
 import com.steps.postsapi.services.application.CalculateRuntimesApplicationService;
 import com.steps.postsapi.services.application.CreatePostApplicationService;
 import com.steps.postsapi.services.application.GetPostNumberApplicationService;
@@ -53,6 +54,11 @@ public class ServiceConfig {
     @Bean
     public PostService newPostService(){
         return new PostService();
+    }
+
+    @Bean
+    public IdsService idsService(){
+        return new IdsService();
     }
 
     @Bean

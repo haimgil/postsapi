@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 public class PostService {
 
     private final static Logger logger = LoggerFactory.getLogger(PostService.class);
-    private final static Long RUNTIME_ID = Integer.toUnsignedLong(1010101010);
+    private final static long RUNTIME_ID = 1010101010;
 
     @Value("${pagination.offset}")
     private Integer defaultOffset;
@@ -34,7 +35,7 @@ public class PostService {
 
     public Post create(Long userId, Post post){
         Post newPost = new Post();
-        newPost.setId(generatePositiveUniqueId());
+        newPost.setId(post.getId());
         newPost.setTitle(post.getTitle());
         newPost.setBody(post.getBody());
         newPost.setPublishDate(Calendar.getInstance().getTime());
@@ -53,6 +54,7 @@ public class PostService {
             List<Long> userPostIds = userService.getUserPostIds(userId);
             List<Post> posts = repository.findAllById(userPostIds);
             posts.sort(Post::compareTo);
+            Collections.sort(posts, Collections.reverseOrder());
             posts = paginatedUsrPosts(posts, pageable.getOffset(), pageable.getPageSize());
             return posts;
         }
@@ -86,14 +88,6 @@ public class PostService {
             limit = defaultLimit;
         }
         return PageRequest.of(offset, limit, Sort.by("publishDate").descending());
-    }
-
-    private Long generatePositiveUniqueId() {
-        long id = -1;
-        do {
-            id = UUID.randomUUID().getMostSignificantBits();
-        } while (id < 0);
-        return id;
     }
 
     public Long getNumber() {
