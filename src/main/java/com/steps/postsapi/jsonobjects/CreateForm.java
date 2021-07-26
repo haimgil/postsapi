@@ -1,4 +1,4 @@
-package com.steps.postsapi.helpers;
+package com.steps.postsapi.jsonobjects;
 
 import com.steps.postsapi.persistence.Post;
 import com.steps.postsapi.persistence.User;

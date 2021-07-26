@@ -1,4 +1,4 @@
-package com.steps.postsapi.helpers;
+package com.steps.postsapi.services.domain;
 
 import com.steps.postsapi.persistence.Post;
 import org.springframework.util.StringUtils;

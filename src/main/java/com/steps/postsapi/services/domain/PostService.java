@@ -10,14 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
-@Service
 public class PostService {
 
     private final static Logger logger = LoggerFactory.getLogger(PostService.class);
@@ -34,9 +31,8 @@ public class PostService {
     private UserService userService;
 
     public Post create(Long userId, Post post){
-        Post newPost = new Post();
+        Post newPost = new Post(post.getTitle(), post.getBody());
         newPost.setId(post.getId());
-        newPost.setTitle(post.getTitle());
         newPost.setBody(post.getBody());
         newPost.setPublishDate(Calendar.getInstance().getTime());
         newPost.setByUser(userId);

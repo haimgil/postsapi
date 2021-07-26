@@ -1,4 +1,4 @@
-package com.steps.postsapi.helpers;
+package com.steps.postsapi.jsonobjects;
 
 public class PostNumber {
 

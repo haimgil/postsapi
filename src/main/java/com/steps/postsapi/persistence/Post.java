@@ -28,6 +28,14 @@ public class Post implements Comparable<Post>{
     @Column(name = "byUser", nullable = false)
     private Long byUser;
 
+    public Post() {
+    }
+
+    public Post(String title, String body) {
+        this.title = title;
+        this.body = body;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

@@ -1,6 +1,6 @@
 package com.steps.postsapi.config;
 
-import com.steps.postsapi.helpers.IdsService;
+import com.steps.postsapi.services.domain.IdsService;
 import com.steps.postsapi.services.application.CalculateRuntimesApplicationService;
 import com.steps.postsapi.services.application.CreatePostApplicationService;
 import com.steps.postsapi.services.application.GetPostNumberApplicationService;

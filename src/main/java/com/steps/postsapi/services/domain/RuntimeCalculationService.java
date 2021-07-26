@@ -39,20 +39,11 @@ public class RuntimeCalculationService {
     }
 
     private Post generateRuntimePost() {
-        Post post = new Post();
-        post.setTitle("runtime");
-        post.setBody("runtime");
-
-        return post;
+        return new Post("runtime", "runtime");
     }
 
     private User generateRuntimeUser() {
-        User user = new User();
-        user.setId(RUNTIME_ID);
-        user.setFirstName("runtime");
-        user.setLastName("runtime");
-
-        return user;
+        return new User(RUNTIME_ID,"runtime", "runtime");
     }
 
     private Long calculateGetRuntime() {

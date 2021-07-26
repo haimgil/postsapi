@@ -1,7 +1,6 @@
 package com.steps.postsapi.services.domain;
 
 import com.steps.postsapi.errorhandling.exceptions.UserDetailsConflictException;
-import com.steps.postsapi.helpers.IdsService;
 import com.steps.postsapi.persistence.User;
 import com.steps.postsapi.persistence.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -44,10 +43,7 @@ public class UserService {
     }
 
     private void createNewUser(User user, Long postId) {
-        User newUser = new User();
-        newUser.setId(user.getId());
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
+        User newUser = new User(user.getId(), user.getFirstName(), user.getLastName());
         newUser.setPostIds(String.valueOf(postId));
         newUser.setPostsQuantity(1);
 
